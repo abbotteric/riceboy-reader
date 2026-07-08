@@ -1,7 +1,7 @@
 // App-shell cache so the installed app launches without its origin server.
 // Comic images come from rice-boy.com and are deliberately NOT cached here
 // (a full read-through is ~1 GB — let the browser's HTTP cache handle it).
-const CACHE = "riceboy-v3";
+const CACHE = "riceboy-v4";
 const SHELL = ["./", "index.html", "app.js", "comics.js", "style.css",
                "icon.png", "manifest.webmanifest"];
 
