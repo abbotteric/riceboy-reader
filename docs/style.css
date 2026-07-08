@@ -116,6 +116,10 @@ html, body {
 
 #page.loading { opacity: 0.25; }
 
+/* edge-to-edge: trade the safe areas for a bigger image (installed app,
+   where true fullscreen isn't allowed) */
+#reader.edge #stage { padding: 0; }
+
 /* fit: contain within the stage's safe area (default) */
 #reader.fit #page {
   max-width: 100%;

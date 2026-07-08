@@ -237,6 +237,7 @@ function applyFit() {
   const mode = fitMode();
   $("reader").classList.toggle("fit", mode === "fit");
   $("reader").classList.toggle("wide", mode === "wide");
+  applyEdge();
 }
 
 function toggleFit() {
@@ -244,10 +245,12 @@ function toggleFit() {
   applyFit();
 }
 
-// ---------- fullscreen ----------
-// True fullscreen hides the iPad status bar (impossible via meta tags), so
-// the page gets the entire screen. Needs a user gesture; unsupported on
-// iPhone, where the button is hidden.
+// ---------- fullscreen / edge-to-edge ----------
+// In Safari, true fullscreen hides the iPad status bar and the page gets the
+// entire screen. Installed home-screen apps can't use the Fullscreen API
+// (Apple disables it there), so the same button falls back to edge-to-edge:
+// drop the safe-area padding and let the image extend under the status bar
+// and home indicator.
 
 const fsRoot = document.documentElement;
 
@@ -255,11 +258,21 @@ function fsSupported() {
   return !!(fsRoot.requestFullscreen || fsRoot.webkitRequestFullscreen);
 }
 
+function applyEdge() {
+  $("reader").classList.toggle("edge", localStorage.getItem("riceboy.edge") === "1");
+}
+
 function toggleFullscreen() {
-  if (document.fullscreenElement || document.webkitFullscreenElement) {
-    (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  if (fsSupported()) {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    } else {
+      (fsRoot.requestFullscreen || fsRoot.webkitRequestFullscreen).call(fsRoot);
+    }
   } else {
-    (fsRoot.requestFullscreen || fsRoot.webkitRequestFullscreen).call(fsRoot);
+    const on = localStorage.getItem("riceboy.edge") === "1";
+    localStorage.setItem("riceboy.edge", on ? "0" : "1");
+    applyEdge();
   }
 }
 
@@ -276,8 +289,7 @@ function bindEvents() {
   });
   $("btn-back").addEventListener("click", () => { location.hash = ""; });
   $("btn-fit").addEventListener("click", toggleFit);
-  if (fsSupported()) $("btn-full").addEventListener("click", toggleFullscreen);
-  else $("btn-full").hidden = true;
+  $("btn-full").addEventListener("click", toggleFullscreen);
 
   $("slider").addEventListener("input", (e) => {
     $("pageinput").value = e.target.value; // live preview while scrubbing
@@ -302,7 +314,7 @@ function bindEvents() {
     if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
     if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(1); }
     else if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
-    else if (e.key === "f" && fsSupported()) toggleFullscreen();
+    else if (e.key === "f") toggleFullscreen();
     else if (e.key === "Escape") location.hash = "";
   });
 
