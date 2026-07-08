@@ -1,0 +1,13 @@
+{
+  "name": "Rice Boy Reader",
+  "short_name": "Rice Boy",
+  "description": "Reader for Evan Dahm's comics (personal proxy of rice-boy.com)",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#121216",
+  "theme_color": "#121216",
+  "icons": [
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#121216">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Rice Boy Reader</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="library" hidden>
+  <h1>Rice Boy Reader</h1>
+  <p class="credit">Comics by Evan Dahm — <a href="https://rice-boy.com">rice-boy.com</a></p>
+  <div id="shelf"></div>
+</main>
+
+<main id="reader" hidden>
+  <div id="stage">
+    <img id="page" alt="" decoding="async" referrerpolicy="no-referrer">
+    <div id="pagestatus" hidden></div>
+  </div>
+  <header id="topbar" class="chrome" hidden>
+    <button id="btn-back" title="Library">&#8962;</button>
+    <div id="title"></div>
+    <button id="btn-fit" title="Toggle fit mode">&#8597;</button>
+  </header>
+  <footer id="bottombar" class="chrome" hidden>
+    <select id="chapters"></select>
+    <div id="scrub">
+      <input id="slider" type="range" min="1" step="1">
+      <div id="pagelabel">
+        <input id="pageinput" type="number" min="1" inputmode="numeric">
+        <span id="pagetotal"></span>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script src="comics.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

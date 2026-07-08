@@ -1,0 +1,219 @@
+:root {
+  --bg: #121216;
+  --panel: #1d1d24;
+  --text: #e8e6e0;
+  --dim: #8b8898;
+  --accent: #e8643c;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, system-ui, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+[hidden] { display: none !important; }
+
+/* ---------- library ---------- */
+
+#library {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 2rem) 1.25rem 4rem;
+}
+
+#library h1 { font-size: 1.6rem; font-weight: 700; }
+
+.credit { color: var(--dim); font-size: 0.85rem; margin: 0.35rem 0 1.75rem; }
+.credit a { color: var(--dim); }
+
+.card {
+  display: flex;
+  gap: 1rem;
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card .cover {
+  width: 84px;
+  height: 126px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 6px;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.card .info { flex: 1; min-width: 0; }
+
+.card h2 { font-size: 1.15rem; }
+
+.card .meta { color: var(--dim); font-size: 0.8rem; margin: 0.2rem 0 0.7rem; }
+
+.card .ongoing {
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.card .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.card .actions a {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  background: #2a2a33;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  touch-action: manipulation;
+}
+
+.card .actions a.primary { background: var(--accent); color: #fff; font-weight: 600; }
+
+.card details { margin-top: 0.7rem; }
+.card summary { color: var(--dim); font-size: 0.8rem; cursor: pointer; }
+.card details a {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #2a2a33;
+}
+.card details a span { color: var(--dim); font-size: 0.75rem; }
+
+/* ---------- reader ---------- */
+
+#reader { position: fixed; inset: 0; }
+
+#stage {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  touch-action: pan-y pinch-zoom;   /* keep scroll + zoom, kill double-tap-zoom delay */
+  -webkit-tap-highlight-color: transparent;
+}
+
+#page {
+  margin: auto;             /* centers when smaller than stage */
+  display: block;
+  opacity: 1;
+  transition: opacity 120ms;
+}
+
+#page.loading { opacity: 0.25; }
+
+/* fit: contain within the screen (default) */
+#reader.fit #page {
+  max-width: 100vw;
+  max-height: 100dvh;
+  width: auto;
+  height: auto;
+}
+
+/* wide: fill width, scroll vertically */
+#reader.wide #page { width: 100vw; height: auto; }
+
+#pagestatus {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: var(--dim);
+}
+
+.chrome {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: rgba(18, 18, 22, 0.82);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+#topbar {
+  top: 0;
+  padding: calc(env(safe-area-inset-top) + 0.5rem) 0.9rem 0.6rem;
+}
+
+#topbar #title {
+  flex: 1;
+  text-align: center;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#topbar button {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.5rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 8px;
+  touch-action: manipulation;
+}
+
+#topbar button:active { background: #2a2a33; }
+
+#bottombar {
+  bottom: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem calc(env(safe-area-inset-bottom) + 0.75rem);
+}
+
+#chapters {
+  width: 100%;
+  background: #2a2a33;
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+#scrub { display: flex; align-items: center; gap: 0.9rem; }
+
+#slider { flex: 1; accent-color: var(--accent); height: 2.2rem; }
+
+#pagelabel {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--dim);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#pageinput {
+  width: 3.6rem;
+  background: #2a2a33;
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 0.45rem 0.4rem;
+  font-size: 0.95rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+}
+
+#pageinput::-webkit-inner-spin-button { display: none; }
